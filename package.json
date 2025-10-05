@@ -1,0 +1,14 @@
+{
+  "name": "mern-app",
+  "version": "1.0.0",
+  "description": "React/Express/PostgreSQL Inventory System",
+  "scripts": {
+    "dev": "concurrently \"npm run start:client\" \"npm run start:server\"",
+    "start:client": "npm start --prefix client",
+    "start:server": "npm run dev --prefix server",
+    "install:all": "npm install && npm install --prefix client && npm install --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

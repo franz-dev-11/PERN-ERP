@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* FONT FIX: Set Figtree as the primary font */
+  font-family: 'Figtree', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+/* This CSS ensures the root HTML elements (which host the React app) 
+always fill the entire browser viewport width and height. 
+*/
+html, body, #root {
+  font-family: 'Figtree', sans-serif;
+  line-height: 1.5;
+  font-weight: 600;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add this block to your global CSS file (e.g., index.css) */
+input[type="text"],
+input[type="password"] {
+  /* Forces the text color to a visible dark gray */
+  color: #1f2937 !important; /* Tailwind's gray-900 */
+  
+  /* Forces the background to white */
+  background-color: #ffffff !important; 
+}
+
+/* Also check for placeholder style overrides */
+::placeholder {
+  color: #6b7280 !important; /* Tailwind's gray-500 */
+}
+
+/* Custom CSS to override Chrome/Webkit Autofill styles */
+
+/* Target the autofilled input states */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    /* The box-shadow hack: A white shadow with a huge spread radius (9999px) 
+       is projected inward ('inset'), covering the entire input field.
+       Set 'white' to your desired background color.
+    */
+    box-shadow: 0 0 0 9999px white inset !important;
+    
+    /* Ensures the text color stays readable (e.g., black) */
+    -webkit-text-fill-color: black !important;
+    
+    /* Optional: Remove any default transition the browser might add */
+    transition: background-color 5000s ease-in-out 0s !important;
+}
