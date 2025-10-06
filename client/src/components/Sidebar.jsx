@@ -1,16 +1,15 @@
 // Sidebar.jsx
 
 import React from 'react';
-// Lucide Imports removed as they are no longer used in the component
 // Font Awesome imports
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faChartBar, faUserFriends, faSignOutAlt, faSignInAlt, 
     faFolder, faBoxes, faUser, faTags, faTruck, faHome,
-    faLineChart
+    faLineChart, faSearch, faBars, faEllipsisV
 } from '@fortawesome/free-solid-svg-icons';
 
-// Static Role Mapping
+// Static Role Mapping (KEPT)
 const USER_ROLES = {
     1: 'System Administrator',
     2: 'Purchasing Agent',
@@ -30,8 +29,7 @@ const getInitials = (fullName) => {
   return fullName.slice(0, 2).toUpperCase();
 };
 
-// IconComponent removed as Lucide is no longer used for the final structure
-
+// Original Icon Mapping Logic (KEPT)
 const getItemIcon = (id) => {
     if (id.includes('dashboard')) return faHome;
     if(id.includes('forecasting')) return faLineChart
@@ -42,6 +40,7 @@ const getItemIcon = (id) => {
     return faFolder;
 };
 
+// Original Navigation Sections (KEPT)
 const navSections = [
   {
     title: 'Data & Analytics',
@@ -80,46 +79,53 @@ const navSections = [
 ];
 
 
-// FIXED: Sidebar now accepts activeItem and setActiveItem as props
+// Sidebar now accepts activeItem and setActiveItem as props
 function Sidebar({ onLogout, user, activeItem, setActiveItem }) {
 
-  const fullName = user.full_name || 'Guest User';
+  const fullName = user.full_name || 'Grace Mark';
   const roleId = user.role_id;
   const email = user.email || 'guest@dashboard.com';
 
-  const roleName = USER_ROLES[roleId] || 'Role Undefined';
+  const roleName = USER_ROLES[roleId] || 'Role Undefined'; // Get the dynamic role name
   const initials = getInitials(fullName);
 
-  // REMOVED: const [activeItem, setActiveItem] = useState('dashboard');
-
-
+  // Styling changes to match the image: Dark background and modern elements
   return (
-    <aside className="fixed top-0 left-0 h-screen w-64 bg-[#212121] text-white p-4 border-r border-gray-800 shadow-xl z-20 flex flex-col">
+    <aside className="fixed top-0 left-0 h-screen w-64 bg-[#181818] text-white p-4 border-r border-gray-900 shadow-2xl z-20 flex flex-col">
 
-      {/* User Profile Section */}
-      <div className="flex items-center pb-6 border-b border-gray-700 mb-6 relative">
-          <div className="w-11 h-11 rounded-full bg-gray-600 text-white font-semibold flex items-center justify-center mr-3 overflow-hidden flex-shrink-0 shadow-md">
-          <span className="text-md">{initials}</span>
+      {/* Header Area: Title, Menu Icon, and Search Bar */}
+      <div className="pb-4 border-b border-gray-700/50 mb-4">
+          <div className="flex justify-between items-center mb-5">
+              <h1 className="text-xl font-bold">Dashboard</h1>
+              {/* This is the hamburger menu from the image */}
+              <button className="text-gray-400 hover:text-white transition">
+                  <FontAwesomeIcon icon={faBars} className="w-5 h-5" />
+              </button>
           </div>
-          <div className="flex-grow min-w-0">
-              <div className="text-white text-sm font-bold truncate">
-                  <span className="truncate">{fullName}</span>
-              </div>
-              <div className="text-xs text-gray-400 truncate mb-1" title={`Role: ${roleName}`}>
-                  {roleName}
-              </div>
-              <div className="text-xs text-gray-400 truncate" title={email}>{email}</div>
+          
+          {/* Search Bar matching the image style */}
+          <div className="relative">
+              <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-full py-2.5 pl-10 pr-4 text-sm bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 border-none placeholder-gray-400"
+              />
+              <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           </div>
+
+          <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mt-4 ml-2">Navigation</p>
       </div>
+
 
       {/* Navigation Sections (Scrollable) */}
       <nav className="flex-grow overflow-y-auto pr-2">
           {navSections.map((section, index) => (
           <div key={section.title} className="mb-4">
+              {/* Section Title Style */}
               <div className="flex items-center text-xs text-gray-400 uppercase tracking-wide font-bold mb-3 pl-2">
                   <FontAwesomeIcon
                       icon={section.icon}
-                      className="mr-2 w-3.5 h-3.5 text-white"
+                      className="mr-2 w-3.5 h-3.5 text-blue-400" // Icon color slightly changed
                   />
                   {section.title}
               </div>
@@ -128,23 +134,20 @@ function Sidebar({ onLogout, user, activeItem, setActiveItem }) {
                   <li key={item.id} className="mb-1 relative">
                   <a
                       href="#"
-                      // FIXED: onClick now calls the prop setActiveItem
+                      // FIXED: onClick logic is kept
                       onClick={(e) => { e.preventDefault(); setActiveItem(item.id); }}
                       // FIXED: Uses the prop activeItem for comparison
-                      className={`flex items-center py-2.5 pl-8 pr-3 rounded-xl text-sm transition-all duration-200 ease-in-out
+                      // STYLING: Updated to match the flat, rectangular active state
+                      className={`flex items-center py-2.5 pl-4 pr-3 rounded-xl text-sm transition-all duration-200 ease-in-out
                                   ${activeItem === item.id
-                                  ? 'bg-blue-600 text-white font-bold shadow-lg shadow-black/30'
-                                  : 'hover:bg-blue-600/30 hover:text-white text-gray-200'
+                                  ? 'bg-blue-600 text-white font-semibold shadow-lg shadow-black/30'
+                                  : 'hover:bg-gray-800 text-gray-200' // Darker hover state
                                   }`}
                   >
-                      {/* Tree-view lines */}
-                      <div className="absolute left-4 top-0 bottom-0 w-px bg-gray-700"></div>
-                      <div className="absolute left-4 top-1/2 w-4 h-px bg-gray-700 -translate-y-1/2"></div>
-
                       {/* Font Awesome icon selected based on item ID */}
                       <FontAwesomeIcon
                           icon={getItemIcon(item.id)}
-                          className={`mr-3 w-4 h-4 ${activeItem === item.id ? 'text-white' : 'text-gray-400'}`}
+                          className={`mr-3 w-5 h-5 ${activeItem === item.id ? 'text-white' : 'text-gray-400'}`}
                       />
                       <span className="flex-grow">{item.text}</span>
                   </a>
@@ -159,15 +162,33 @@ function Sidebar({ onLogout, user, activeItem, setActiveItem }) {
           ))}
       </nav>
 
-      {/* Static Logout Button */}
-      <div className="mt-auto pt-4 border-t border-gray-700 flex-shrink-0">
-          <button
-              onClick={onLogout}
-              className="flex items-center justify-center w-full py-2.5 px-3 text-sm font-semibold text-red-400 bg-red-900/40 rounded-xl hover:bg-red-900/60 transition duration-150 shadow-sm"
-          >
-              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 w-4 h-4" />
-              Logout
-          </button>
+      {/* User Profile Section (Pinned to the bottom, styled to match the image) */}
+      <div className="mt-auto pt-4 border-t border-gray-700/50 flex-shrink-0">
+          <div className="flex items-center justify-between p-2 rounded-xl bg-gray-800/50 hover:bg-gray-800 transition">
+              {/* User Info */}
+              <div className="flex items-center min-w-0">
+                  {/* MODIFIED: Profile Picture container now shows initials if no image is used */}
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 shadow-md mr-3 
+                                  border border-white/10 bg-gray-600 flex items-center justify-center text-sm font-bold">
+                       {/* This displays the user's initials as the default/fallback */}
+                       <span className="text-white">{initials}</span>
+                       {/* If a user profile URL existed, you would use an <img> tag here instead of the <span> */}
+                  </div>
+                  <div className="flex-grow min-w-0">
+                      <div className="text-white text-sm font-semibold truncate">
+                          <span className="truncate">{fullName}</span>
+                      </div>
+                      {/* Displays the dynamic roleName */}
+                      <div className="text-xs text-gray-400 truncate" title={`Role: ${roleName}`}>
+                          {roleName} 
+                      </div>
+                  </div>
+              </div>
+              {/* More options icon (Right arrow in the image) */}
+              <button className="text-gray-400 hover:text-white transition flex-shrink-0 ml-2">
+                  <FontAwesomeIcon icon={faEllipsisV} className="w-4 h-4 rotate-90" />
+              </button>
+          </div>
       </div>
     </aside>
   );

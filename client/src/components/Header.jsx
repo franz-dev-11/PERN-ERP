@@ -11,7 +11,7 @@ import stnLogo from '/src/assets/stnlogo.svg'; //
 const Header = () => {
   return (
     // Header Container: Dark background retained
-    <header className="w-full py-4 bg-[#212121]">
+    <header className="w-full py-4 bg-[#181818]">
       
       {/* Content Wrapper: Max width, centered horizontally */}
       <div className="max-w-7xl w-full mx-auto flex justify-center items-center px-4 sm:px-6 lg:px-8">
