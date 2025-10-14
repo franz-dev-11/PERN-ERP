@@ -16,6 +16,7 @@ require('./db');
 const inventoryRoutes = require('./inventoryRoutes'); 
 const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes'); // The new file we created
+const purchasingRouter = require("./purchasing");
 // -------------------------------------
 
 // --- Middleware ---
@@ -36,7 +37,8 @@ app.use(express.json());
 
 // Use the imported inventory routes and apply them to the base path /api/inventory
 app.use('/api/inventory', inventoryRoutes);
-
+// Use the new purchasing routes
+app.use("/api/purchasing", purchasingRouter);
 // Use the imported authentication routes
 app.use('/api/auth', authRoutes);
 app.use('/api', userRoutes);
