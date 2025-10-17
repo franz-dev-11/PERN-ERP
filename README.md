@@ -4,6 +4,22 @@ A fully functional PERN ERP
 ============================
 DEVELOPMENT IN PROGRESS
 ============================
-<img width="426" height="231" alt="image" src="https://github.com/user-attachments/assets/d465e8f3-c1e2-4b8a-8d40-bb926a575932" />
+User Authentication = FINISHED
+ -Edit User Credentials
+ -Reset Password
+ -View Users
+
+ Inventory feature = FINISHED
+ -Display Data
+ -Add items
+ -Filters
+ -Functional Search Bar
+
+ Purchasing feature = FINISHED
+ -Record Bought Items
+ -Reflect Quantity Bought Of Items In Inventory
+ -Purchase Cart to validate items bought
+ -Filters
+ 
 
 
