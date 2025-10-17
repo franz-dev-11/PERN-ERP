@@ -9,26 +9,34 @@ import Users from "../features/Users/Users";
 import Signup from "../features/Auth/Signup";
 // --- REQUIRED IMPORTS ---
 import Inventory from "../features/Inventory/Inventory";
-import Purchasing from "../features/Purchasing/Purchasing"; // <-- New Feature Import
+import Purchasing from "../features/Purchasing/Purchasing";
+// --- NEW IMPORT ---
+import PriceEditor from "../features/Purchasing/PriceEditor"; // Assuming you place PriceEditor.jsx in a Pricing directory
 
 /**
  * Home Component
  * @param {object} props
  * @param {function} props.onLogout - Handler for logging the user out
+ * @param {object} props.user - The user object passed directly from App.jsx
  */
-function Home({ onLogout }) {
-  // --- RETRIEVE DATA FROM LOCAL STORAGE ---
-  const userString = localStorage.getItem("user");
-  const user = userString ? JSON.parse(userString) : null;
+// ⭐️ REVISION: Accept the user prop passed from App.jsx
+function Home({ onLogout, user }) {
+  // ⭐️ REMOVED: Redundant local storage lookup for 'user'
+  // const userString = localStorage.getItem("user");
+  // const user = userString ? JSON.parse(userString) : null;
+
+  // Retrieve only the non-user-object data from local storage
   const tokenExpiresAt = Number(localStorage.getItem("tokenExpiresAt"));
   // ----------------------------------------
 
   // --- ROUTING STATE ---
+  // If you want to change the default landing page, change "dashboard" here.
   const [activeItem, setActiveItem] = useState("dashboard");
   // ---------------------
 
   // LOGIC TO HANDLE TIME-LIMITED TOKEN EXPIRATION
   useEffect(() => {
+    // Logic uses the user prop directly now
     if (
       !user ||
       !tokenExpiresAt ||
@@ -56,6 +64,10 @@ function Home({ onLogout }) {
 
       case "purchasing": // Purchasing feature
         return <Purchasing />;
+
+      // --- UPDATED CASE FOR PRICE EDITOR ---
+      case "inbound-pricing":
+        return <PriceEditor />;
 
       case "show-users":
         return <Users />;
@@ -91,7 +103,7 @@ function Home({ onLogout }) {
       {/* 1. Sidebar Content - PASSING ROUTING PROPS */}
       <Sidebar
         onLogout={onLogout}
-        user={user}
+        user={user} // This uses the user prop passed into Home.jsx
         activeItem={activeItem}
         setActiveItem={setActiveItem}
       />

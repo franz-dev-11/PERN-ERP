@@ -170,8 +170,8 @@ const Purchasing = () => {
 
   return (
     <div className='p-4 md:p-8 max-w-7xl mx-auto'>
-      <h1 className='text-3xl font-bold text-gray-800 mb-6 text-center'>
-        Hardware Purchasing Catalog 🛒
+      <h1 className='text-2xl font-bold text-gray-800 pb-2 border-b-1 border-black'>
+        Purchasing Catalog
       </h1>
 
       {/* Filter Section */}

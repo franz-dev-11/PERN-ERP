@@ -1,13 +1,13 @@
 /* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
-// App.js (FINAL REVISION: Corrected Router structure)
+// App.js (FINAL FIX FOR DATA FLOW)
 
 import React, { useState, useEffect } from "react";
 // Ensure BrowserRouter, Routes, and Route are imported
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import ResetPassword from "./features/Auth/ResetPassword"; // 🔑 New Import
+import ResetPassword from "./features/Auth/ResetPassword"; // New Import
 
 // --- SYNCHRONOUS CHECK FUNCTION ---
 const getInitialUserState = () => {
@@ -19,12 +19,15 @@ const getInitialUserState = () => {
 
     if (tokenExpiresAt > now) {
       try {
+        // Returns the parsed user object from localStorage
         return JSON.parse(storedUserString);
       } catch (e) {
+        // Clears data if JSON is malformed
         localStorage.removeItem("user");
         return null;
       }
     } else {
+      // Clears all data if token has expired
       localStorage.removeItem("accessToken");
       localStorage.removeItem("tokenExpiresAt");
       localStorage.removeItem("user");
@@ -56,9 +59,6 @@ function App() {
   // Render Logic (Uses React Router for all paths)
   // -----------------------------------------------------------------
 
-  // NOTE: The previous hard-coded 'if/else' return block is now removed
-  // to ensure the <BrowserRouter> is always executed.
-
   return (
     <BrowserRouter>
       <Routes>
@@ -67,8 +67,10 @@ function App() {
           path='/'
           element={
             user ? (
-              <Home onLogout={handleLogout} />
+              // CRITICAL FIX: Pass the 'user' object to the Home component
+              <Home onLogout={handleLogout} user={user} />
             ) : (
+              // If user is not logged in, show Login
               <Login onLoginSuccess={handleLoginSuccess} />
             )
           }
@@ -80,7 +82,7 @@ function App() {
           element={<Login onLoginSuccess={handleLoginSuccess} />}
         />
 
-        {/* 🔑 NEW ROUTE TO DISPLAY THE RESET PASSWORD FORM */}
+        {/* ROUTE TO DISPLAY THE RESET PASSWORD FORM */}
         <Route path='/reset-password/:token' element={<ResetPassword />} />
 
         {/* Add any other application routes here */}
